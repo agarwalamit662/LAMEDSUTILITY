@@ -1,0 +1,62 @@
+<style>
+.left-text {
+    /* position: relative; */
+    text-align: left;
+    top: 30%;
+    width: 100%;
+    color: #000;
+    
+}
+</style>
+<div id = "header" style="height:100px; background:#7986CB;">
+	
+	<div id = "classroom" style="padding:25px; color:#ffffff; font-size:2.0em">
+		
+		<span style="padding: 0px 20px;">
+		Share&amp;Learn</span>
+	</div>
+	
+</div>
+
+<div class="container" align = "center" >
+    <div class="row" align="center" style="width:95%;">
+       
+       <form ng-submit="uploadFile()" class="form-horizontal" enctype="multipart/form-data">
+       <div class="form-group input-group-lg" ng-class="{true: 'has-error'}[document.title.$dirty && document.title.$invalid && document.fileInput.$dirty && document.fileInput.$invalid]">
+        <div class = "col-sm-12"><label for="pageIds" class="label_left" style="float:left;width: 100%;text-align: left;">PAGE_ID</label></div>
+   		<div class = "col-sm-6"><input type="file" name="file" ng-model="document.fileInput" id="file" onchange="angular.element(this).scope().setTitle(this)" style="float:left;margin-top:2%;" ng-required="true"/></div>
+   		<div class = "col-sm-6"><input type="text"  ng-model="document.title" name = "title" id="title" style="float:left; width:100%; margin-top:2%;" ng-required="true"/></div>
+   		<div class = "col-sm-6"><button class="btn btn-primary" type="submit" style="float:left; margin-top:2%;">
+         Upload
+    </button></div>
+    </div>
+    
+    <div class="form-group input-group-lg" ng-class="{true: 'has-error'}[createclasssDialog.pageIds.$dirty && createclasssDialog.pageIds.$invalid]">
+        <label for="pageIds" class="label_left">PAGE_ID</label>
+        <input type="text" class="form-control text-Control" id="pageIds" name="pageIds" placeholder="Please enter comma separated page-ids ex AMHMS,ABCON,RMHMS " ng-model="classroom.pageids" ng-required="true" style="height:35px;font-size:14px;">
+    	<!-- <span ng-show="form.pageIds.$error.required">The value is required!</span> -->
+    </div>
+    
+   
+    
+</form>
+    <button  class="btn btn-success" ng-click="downloadFile()">download</button>    
+    			
+    	</div> 		
+    			
+	</div>
+    
+</div>
+
+<!-- <div class="section">
+    <h3>{{headingTitle}}</h3>
+    <div>
+        <ul type="disc">
+            <li>Address: Unit 10, Sydney, NSW, Australia</li>
+            <li>Phone: 1111 2222</li>
+            <li>Fax: 4444 5555</li>
+        </ul>
+    </div>
+    
+    <a ng-href= "#gallery">jhbhj</a>
+</div> -->

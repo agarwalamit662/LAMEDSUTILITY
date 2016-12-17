@@ -1,0 +1,6 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="spring-angularjs-tutorial:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="spring-angularjs-tutorial-1.0-SNAPSHOT.war" />
+  </artifact>
+</component>

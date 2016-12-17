@@ -1,0 +1,76 @@
+<style>
+.left-text {
+    /* position: relative; */
+    text-align: left;
+    top: 30%;
+    width: 100%;
+    color: #000;
+    
+}
+</style>
+<div id = "header" style="height:100px; background:#7986CB;">
+	
+	<div id = "classroom" style="padding:25px; color:#ffffff; font-size:2.0em">
+		
+		<span style="padding: 0px 20px;">
+		Share&amp;Learn</span>
+	</div>
+	
+</div>
+
+<div class="container" align = "center" >
+    <div class="row" align="center" style="margin:3% 12%;">
+        <div ng-repeat="course in coursesClass" style="padding:20px; margin-bottom:5px;" class="col-md-3 col-sm-3 col-xs-12 portfolio-item animate-repeat low-vertical-padding" >
+    			<md-card class="place-card">
+    			<div style="width:100%;">
+    			<a ng-href="#course/{{course.Course.id}}" class="portfolio-link md-ink-ripple">
+    			
+    			<img src = "/utility/resources/static/images/{{course.Course.id}}.jpeg" style="width:100%; height:150px;" class="place-img">
+    			<div class="md-ripple-container" ></div>
+    			 <div style="min-height:80px; padding-left:10px; padding-right:10px;">
+    			<span class="left-text">
+			              <h4 class="header-on-image text_color" style="font-size: 1.2em; "> {{ course.Course.name | limitTo: 20 }}{{course.Course.name.length > 20 ? '...' : ''}}({{course.Course.lessons.length}})</h4>
+			    		  <h4 class="header-on-image p_color" style="font-size: 0.8em; margin-top:-7px;"> Added By: {{course.Course.addedby | limitTo: 15 }}{{course.Course.addedby.length > 15 ? '...' : ''}}</h4>	
+			    </span>
+			    </div>
+    			</a>
+    			
+    			</div>
+    			
+    			</md-card>
+    			
+    	</div>
+    	
+    	<div style="padding:20px; margin-bottom:5px;" class="col-md-3 col-sm-3 col-xs-12 portfolio-item animate-repeat low-vertical-padding" >
+    			<md-card class="place-card">
+    			<div style="width:100%;">
+    			<a ng-click="launch('create')" class="portfolio-link md-ink-ripple" >
+    			<img src = "/utility/resources/static/images/createnew.jpeg" style="width:100%; height:150px;" class="place-img" >
+    			<div class="md-ripple-container"></div>
+    			 <div style="min-height:100px;">
+    			
+    			</div>
+    			</a>
+    			
+    			</div>
+    			
+    			</md-card>
+    			
+    	</div> 		
+    			
+	</div>
+    
+</div>
+
+<!-- <div class="section">
+    <h3>{{headingTitle}}</h3>
+    <div>
+        <ul type="disc">
+            <li>Address: Unit 10, Sydney, NSW, Australia</li>
+            <li>Phone: 1111 2222</li>
+            <li>Fax: 4444 5555</li>
+        </ul>
+    </div>
+    
+    <a ng-href= "#gallery">jhbhj</a>
+</div> -->

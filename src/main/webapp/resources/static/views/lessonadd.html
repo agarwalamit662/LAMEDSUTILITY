@@ -1,0 +1,152 @@
+	<style>
+@media only screen and (max-width:991px) {
+#containerid{
+	padding-top: 115px;
+}
+}
+.containerPadding{
+padding-top: 30px;
+}
+.headerPadding{
+padding-top: 142px;
+}
+
+#background { background: #003057; /* Old browsers */ background: -moz-linear-gradient(top, #2e5683 0%, #003057 100%); /* FF3.6-15 */ background: -webkit-linear-gradient(top, #2e5683 0%, #003057 100%); /* Chrome10-25,Safari5.1-6 */ background: linear-gradient(to bottom, #2e5683 0%, #003057 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2e5683', endColorstr='#003057', GradientType=0 ); /* IE6-9 */
+width: 100%; z-index: -1; }
+/* header { color: #fff; font-size: 14px; height: 142px; /* background: rgb(121, 134, 203) none repeat scroll 0% 0%; */  /* IE6-9 */} */
+header ul { display: inline; float: right; margin-top: 70px; text-align: right; }
+header li {display: flex;}
+.label_left{
+	float:left;
+	margin-bottom:-7px;
+}
+.float_right{
+	float:right;
+	width:225px;
+}
+.text-Control{
+	height:35px;
+}
+</style>
+
+<header id="backgroundheader">
+<div class="col-md-5 col-lg-6" >
+<a class="site-seal" href="">
+<h1>State of Louisiana
+</h1>
+</a>
+<a class="site-title" href="">
+<h1>Utilities for Louisiana Department of Health
+</h1>
+</a>
+ 	
+ 	<!-- End Language and Welcome Section-->
+</div>
+<div class="col-md-7 col-lg-6" >
+
+
+<ul>
+<li>Developed by: Amit Agarwal
+<li>Email : amitagarwal3@deloitte.com
+<li>Contact : 7405237842
+</ul>
+</h1>
+</div>
+</header>
+<div style="width:100% height:30px; display:flex;" id = "containerid" class="headerPadding">
+<button class="btn btn-primary" ng-click="showSSP()" style="width:50%;">SSP UTILITY</button>
+<button class="btn btn-primary" ng-click="showSSPCCD()" style="width:50%;">SSP CCD UTILITY</button>
+<button class="btn btn-primary" ng-click="showWKP()" style="width:50%;">WKP UTILITY</button>
+</div> 
+<div  class="container containerPadding" align = "center" style="background:#fff; padding-left:2%; padding-right:2%; padding-bottom:2%; width:90%; min-height:100vh; box-sizing: border-box;" >
+
+    <div ng-show="showForSSP" class="row" align="center" style="margin:1% 1%; min-height:100vh;">
+	<ng-form style="background:rgb(242,242,246);" novalidate name="sspPageUtility">
+    <div class="form-group input-group-lg" ng-class="{true: 'has-error'}[sspPageUtility.pageIds.$dirty && sspPageUtility.pageIds.$invalid]">
+        <label for="pageIds" class="label_left">ENTER PAGE ID</label>
+        <input type="text" class="form-control text-Control" id="pageIds" name="pageIds" placeholder="Please enter single page-id ex AMHMS" ng-model="sspUtility.pageIds" ng-required="true" style="height:35px;font-size:14px;">    	
+    </div>
+    
+    <div class="form-group input-group-lg" ng-class="{true: 'has-error'}[sspPageUtility.errorMessages.$dirty && sspPageUtility.errorMessages.$invalid]">
+        <label for="errorMessages" class="label_left">COMMA SEPARATED ERROR MESSAGE USED IN YOUR PAGE, IF NO ERROR MESSAGES ENTER 'N'</label>
+        <input type="text" class="form-control  text-Control" id="errorMessages" name = "errorMessages" placeholder="Enter Comma Separated Error Messages Used in this page EX:20123,30415" ng-model="sspUtility.errorMessages" ng-required="true" style="height:35px; font-size:14px;">
+    </div>
+    
+    <div class="form-group input-group-lg" ng-class="{true: 'has-error'}[sspPageUtility.displayTexts.$dirty && sspPageUtility.displayTexts.$invalid]">
+        <label for="displayTexts" class="label_left">Comma Separated Extra Display Texts Used in Page Like in list views, IF NO Extra Display Text ENTER 'N'</label>
+        <input type="text" class="form-control text-Control" id="displayTexts" name = "displayTexts" placeholder="Extra Display Texts Comma Separated like 12345,24567" ng-model="sspUtility.displayTexts" ng-required="true" style="height:35px;font-size:14px;">
+    </div>
+    
+    <div class="form-group input-group-lg" ng-class="{true: 'has-error'}[sspPageUtility.refTables.$dirty && sspPageUtility.refTables.$invalid]">
+        <label for="refTables" class="label_left">COMMA SEPARATED REF TABLES, IF NO REF TABLES ENTER 'N'</label>
+        <input type="text" class="form-control text-Control" id="refTables" name = "refTables" placeholder="Enter Comma Separated Ref Tables Name Ex: TOLL,TASC" ng-model="sspUtility.refTables" ng-required="true" style="height:35px;font-size:14px;">
+    </div>
+    
+    <div class="form-group input-group-lg">
+		<button style="width:100%;" type="button" class="btn btn-primary" ng-click="save()" ng-disabled="(sspPageUtility.$dirty &amp;&amp; sspPageUtility.$invalid) || sspPageUtility.$pristine" disabled="disabled">Get Results</button>
+	</div>
+	
+	<div class = "row">
+		<div ng-show="showException"><p id="exceptions">Exception is : {{output.exceptions}}</p></div>
+		<div ng-show="showDownload"><p id = "successfull"><a href = "" ng-click="download('{{output.filePath}}')" >Utility Successful. Click this link to download</a></p></div>
+	</div>
+    
+	</ng-form>    
+</div>
+
+<div ng-show="showForSSPCCD" class="row" align="center" style="margin:1% 1%; min-height:100vh;">
+	<ng-form style="background:rgb(242,242,246);" novalidate name="sspccdPageUtility">
+    <div class="form-group input-group-lg" ng-class="{true: 'has-error'}[sspccdPageUtility.tableName.$dirty && sspccdPageUtility.tableName.$invalid]">
+        <label for="tableName" class="label_left">ENTER TABLE NAME</label>
+        <input type="text" class="form-control text-Control" id="tableName" name="tableName" placeholder="Please enter table name ex APP_RGST" ng-model="sspccdUtility.tableName" ng-required="true" style="height:35px;font-size:14px;">    	
+    </div>
+    
+    <div class="form-group input-group-lg">
+		<button style="width:100%;" type="button" class="btn btn-primary" ng-click="saveCCD()" ng-disabled="(sspccdPageUtility.$dirty &amp;&amp; sspccdPageUtility.$invalid) || sspccdPageUtility.$pristine" disabled="disabled">Get Results</button>
+	</div>
+	
+	<div class = "row">
+		<div ng-show="showException"><p id="exceptions">Exception is : {{output.exceptions}}</p></div>
+		<div ng-show="showDownload"><p id = "successfull"><a href = "" ng-click="download('{{output.filePath}}')" >Utility Successful. Click this link to download</a></p></div>
+	</div>
+    
+	</ng-form>    
+</div>
+
+
+
+
+<div ng-show="showForWKP" class="row" align="center" style="margin:1% 1%; min-height:100vh;">
+	 <!-- <ng-form style="background:rgb(242,242,246);" novalidate name="document" enctype="multipart/form-data">
+    <div class="form-group input-group-lg" ng-class="{true: 'has-error'}[document.title.$dirty && document.title.$invalid && document.file.$dirty && document.file.$invalid]">
+        <div class = "col-sm-12"><label for="UploadExcelFile" class="label_left" style="float:left;width: 100%;text-align: left;">UPLOAD EXCEL FILE</label></div>
+   		<div class = "col-sm-6"><input type="file" name="file" ng-model="documentwkp.file" id="file" onchange="angular.element(this).scope().setTitle(this)" style="float:left;margin-top:2%;" ng-required="true"/></div>
+   		<div class = "col-sm-6"><input type="text"  ng-model="documentwkp.title" name = "title" id="title" style="float:left; width:100%; margin-top:2%;" ng-required="true"/></div>
+   		<div class = "col-sm-6"><button class="btn btn-primary" type="submit" style="float:left; margin-top:2%;">
+         Upload
+    </button>
+    <button style="width:100%;" type="button" class="btn btn-primary" ng-click="uploadFile()" ng-disabled="(document.$dirty &amp;&amp; document.$invalid) || document.$pristine" disabled="disabled">Upload</button>
+    </div>
+    </div>
+</ng-form>  -->   
+
+	<form ng-submit="uploadFile()" class="form-horizontal" enctype="multipart/form-data">
+       <div class="form-group input-group-lg" ng-class="{true: 'has-error'}[document.title.$dirty && document.title.$invalid && document.fileInput.$dirty && document.fileInput.$invalid]">
+       <div class = "col-sm-12"><label for="pageIds" class="label_left" style="float:left;width: 100%;text-align: left;">UPLOAD EXCEL FILE</label></div>
+   		<div class = "col-sm-6"><input type="file" name="file" ng-model="document.fileInput" id="file" onchange="angular.element(this).scope().setTitle(this)" style="float:left;margin-top:2%;" ng-required="true"/></div>
+   		<div class = "col-sm-6"><input type="text"  ng-model="document.title" name = "title" id="title" style="float:left; width:100%; margin-top:2%;" ng-required="true"/></div>
+   		<div class = "col-sm-6"><button class="btn btn-primary" type="submit" style="float:left; margin-top:2%;">
+         Upload
+    </button></div>
+	</div>
+	<div class = "row">
+		<div ng-show="showException"><p id="exceptions">Exception is : {{output.exceptions}}</p></div>
+		<div ng-show="showDownload"><p id = "successfull"><a href = "" ng-click="download('{{output.filePath}}')" >Utility Successful. Click this link to download</a></p></div>
+	</div>
+	</form>
+</div>    
+
+
+	
+
+</div>
