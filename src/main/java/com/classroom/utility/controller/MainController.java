@@ -9,11 +9,15 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.sql.Array;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -35,6 +39,7 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -391,6 +396,7 @@ public class MainController {
     	
     	Connection conn = null;
         Statement stmt = null;
+        PreparedStatement pstmt = null;
         ResultSet rs = null;
         try {
 
@@ -399,14 +405,25 @@ public class MainController {
         	//String dbURL = "jdbc:sqlserver://usmumpurchase3:9080";
         	
         	String dbURL = "jdbc:sqlserver://localhost:53344";
-            // DBNAME
+        	// DBNAME
         	String user =SSP_USERNAME;
             //DBPASSWORD
         	String pass = SSP_USERNAME;
         	String driver = JDBC_DRVR;
         	Class.forName(driver).newInstance();
-            conn = DriverManager.getConnection(dbURL, user, pass);
+            String jdbcutf8 = "&useUnicode=true&characterEncoding=UTF-8";
+            java.util.Properties info = new java.util.Properties();
+
+            if (user != null) {
+                info.put("user", user);
+            }
+            if (pass != null) {
+                info.put("password", pass);
+            }
+            info.put("useUnicode", "true");
+            info.put("characterEncoding", "UTF-8");
             
+            conn = DriverManager.getConnection(dbURL, info);
             String refIds = input.getRefTables();
             String pageId = input.getPageIds(); 
             String msgId = "";
@@ -459,7 +476,6 @@ public class MainController {
             else{
             	refIds = "";
             }
-            
             
             stmt = conn.createStatement();
             
