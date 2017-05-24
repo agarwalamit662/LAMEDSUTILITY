@@ -880,9 +880,14 @@ public class MainController {
     			
     		}
         	ccdGen.generate("access", input.toUpperCase(), SSP_USERNAME, SSP_USERNAME);
+        	File fs = new File(CCDS_PATH + File.separator + TMP_FILES_WKP_OUTPUT_ZIP);
+        	ZipUtil.pack(new File("C:/GeneratedCode/ccd"), fs);
+        	//response = setResponse(exceptions);
+        
+        	response.setFilePath(fs.getAbsolutePath());
+            response.setExceptions("");
+            response.setUtilSuccessfull("Y");
         	
-        	ZipUtil.pack(new File("C:/GeneratedCode/ccd"), new File(CCDS_PATH + File.separator + TMP_FILES_WKP_OUTPUT_ZIP));
-        	response = setResponse(exceptions);
 
         } catch (SQLException | FileNotFoundException ex) {
         	log.error(ex);

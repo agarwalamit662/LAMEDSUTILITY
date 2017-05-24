@@ -98,8 +98,10 @@ public class DBMetaData {
 			Properties properties = new Properties(); // Create Properties object
 			properties.put("user", "ssp_ee_dev");         // Set user ID for connection
 			properties.put("password", "ssp_ee_dev");     // Set password for connection
-			//String url = "jdbc:sqlserver://localhost:53344";
-			String url = "jdbc:sqlserver://10.12.88.113:44033";
+			String url = "jdbc:sqlserver://localhost:53344";
+			//String url = "jdbc:sqlserver://usmumpurchase1:44033";
+				//	+ "10.12.88.113:44033";
+			//10.12.88.136,44033
 //			String url = "jdbc:db2://167.219.240.161:5951/CTDA";
 			
 			String driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";

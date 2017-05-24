@@ -76,6 +76,9 @@ public class GeneraterHelper {
 			} else if(aDB2DataType.equals(GeneratorConstants.DB2_TYPE_TIME)){
 				javaDataType = GeneratorConstants.JAVA_TYPE_TIME;
 			}
+			else if(aDB2DataType.equals(GeneratorConstants.DB2_TYPE_DATETIME2)){
+				javaDataType = GeneratorConstants.JAVA_TYPE_TIMESTAMP;
+			}
 			/*VARCHAR is the same as VARCHAR2 except that VARCHAR2 will be of varible length,
 			 * therefore we may explicitly check for VARCHAR2
 			*/

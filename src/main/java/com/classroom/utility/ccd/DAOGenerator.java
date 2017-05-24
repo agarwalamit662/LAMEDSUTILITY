@@ -470,7 +470,12 @@ public class DAOGenerator {
 				javaDataType = GeneraterHelper.getJavaDataType((String)columnInfo.get(GeneratorConstants.DAO_DATA_TYPE), length, scale,precision);
 				initCapJavaDataType = initCap(javaDataType.toLowerCase());
 				if(javaDataType.equals(GeneratorConstants.JAVA_TYPE_SHORT)||javaDataType.equals(GeneratorConstants.JAVA_TYPE_LONG)||javaDataType.equals(GeneratorConstants.JAVA_TYPE_INT)||javaDataType.equals(GeneratorConstants.JAVA_TYPE_DOUBLE) || javaDataType.equals(GeneratorConstants.JAVA_SQL_INT)){
-					getStr = initCapJavaDataType+".parse"+initCapJavaDataType+"(value)";
+					if(javaDataType.equals(GeneratorConstants.JAVA_SQL_INT)){
+						getStr = "Integer.parse"+initCapJavaDataType+"(value)";
+					}
+					else{
+						getStr = initCapJavaDataType+".parse"+initCapJavaDataType+"(value)";
+					}
 				} else if(javaDataType.equals(GeneratorConstants.JAVA_TYPE_DATE) || javaDataType.equals(GeneratorConstants.JAVA_TYPE_TIMESTAMP)|| javaDataType.equals(GeneratorConstants.JAVA_TYPE_TIME)) {
 					getStr = initCapJavaDataType+".valueOf(value)";
 				} else if(javaDataType.equals(GeneratorConstants.JAVA_TYPE_CHAR) || javaDataType.equals(GeneratorConstants.JAVA_TYPE_STRING)){
@@ -593,8 +598,13 @@ public class DAOGenerator {
 				javaDataType = GeneraterHelper.getJavaDataType((String)columnInfo.get(GeneratorConstants.DAO_DATA_TYPE), length, scale,precision);
 				initCapJavaDataType = initCap(javaDataType.toLowerCase());
 				String getStr=null;
-				if(javaDataType.equals(GeneratorConstants.JAVA_TYPE_SHORT)||javaDataType.equals(GeneratorConstants.JAVA_TYPE_LONG)||javaDataType.equals(GeneratorConstants.JAVA_TYPE_INT)||javaDataType.equals(GeneratorConstants.JAVA_TYPE_DOUBLE)){
-					getStr = initCapJavaDataType+".parse"+initCapJavaDataType+"(key.get"+initCapColumnName+"())";
+				if(javaDataType.equals(GeneratorConstants.JAVA_SQL_INT) || javaDataType.equals(GeneratorConstants.JAVA_TYPE_SHORT)||javaDataType.equals(GeneratorConstants.JAVA_TYPE_LONG)||javaDataType.equals(GeneratorConstants.JAVA_TYPE_INT)||javaDataType.equals(GeneratorConstants.JAVA_TYPE_DOUBLE)){
+					if(javaDataType.equals(GeneratorConstants.JAVA_SQL_INT)){
+						getStr = "Integer.parse"+initCapJavaDataType+"(key.get"+initCapColumnName+"())";
+					}
+					else{
+						getStr = initCapJavaDataType+".parse"+initCapJavaDataType+"(key.get"+initCapColumnName+"())";
+					}
 				} else if(javaDataType.equals(GeneratorConstants.JAVA_TYPE_DATE) || javaDataType.equals(GeneratorConstants.JAVA_TYPE_TIMESTAMP)|| javaDataType.equals(GeneratorConstants.JAVA_TYPE_TIME)) {
 					getStr = initCapJavaDataType+".valueOf(key.get"+initCapColumnName+"())";
 				}
@@ -701,7 +711,12 @@ public class DAOGenerator {
 				initCapJavaDataType = initCap(javaDataType.toLowerCase());
 				String getStr=null;
 				if(javaDataType.equals(GeneratorConstants.JAVA_TYPE_SHORT)||javaDataType.equals(GeneratorConstants.JAVA_TYPE_LONG)||javaDataType.equals(GeneratorConstants.JAVA_TYPE_INT)||javaDataType.equals(GeneratorConstants.JAVA_TYPE_DOUBLE) || javaDataType.equals(GeneratorConstants.JAVA_SQL_INT)){
-					getStr = initCapJavaDataType+".parse"+initCapJavaDataType+"(cargo.get"+initCapColumnName+"())";
+					if(javaDataType.equals(GeneratorConstants.JAVA_SQL_INT)){
+						getStr = "Integer.parse"+initCapJavaDataType+"(cargo.get"+initCapColumnName+"())";
+					}
+					else{
+						getStr = initCapJavaDataType+".parse"+initCapJavaDataType+"(cargo.get"+initCapColumnName+"())";
+					}
 				} else if(javaDataType.equals(GeneratorConstants.JAVA_TYPE_DATE) || javaDataType.equals(GeneratorConstants.JAVA_TYPE_TIMESTAMP)|| javaDataType.equals(GeneratorConstants.JAVA_TYPE_TIME)) {
 					getStr = initCapJavaDataType+".valueOf(cargo.get"+initCapColumnName+"())";
 				}
@@ -822,7 +837,13 @@ public class DAOGenerator {
 				initCapJavaDataType = initCap(javaDataType.toLowerCase());
 				String getStr=null;
 				if(javaDataType.equals(GeneratorConstants.JAVA_TYPE_SHORT)||javaDataType.equals(GeneratorConstants.JAVA_TYPE_LONG)||javaDataType.equals(GeneratorConstants.JAVA_TYPE_INT)||javaDataType.equals(GeneratorConstants.JAVA_TYPE_DOUBLE) || javaDataType.equals(GeneratorConstants.JAVA_SQL_INT)){
-					getStr = initCapJavaDataType+".parse"+initCapJavaDataType+"(cargo.get"+initCapColumnName+"())";
+					
+					if(javaDataType.equals(GeneratorConstants.JAVA_SQL_INT)){
+						getStr = "Integer.parse"+initCapJavaDataType+"(cargo.get"+initCapColumnName+"())";
+					}
+					else{
+						getStr = initCapJavaDataType+".parse"+initCapJavaDataType+"(cargo.get"+initCapColumnName+"())";
+					}
 				} else if(javaDataType.equals(GeneratorConstants.JAVA_TYPE_DATE) || javaDataType.equals(GeneratorConstants.JAVA_TYPE_TIMESTAMP)|| javaDataType.equals(GeneratorConstants.JAVA_TYPE_TIME)) {
 					getStr = initCapJavaDataType+".valueOf(cargo.get"+initCapColumnName+"())";
 				}
@@ -846,8 +867,13 @@ public class DAOGenerator {
 				javaDataType = GeneraterHelper.getJavaDataType((String)columnInfo.get(GeneratorConstants.DAO_DATA_TYPE), length, scale,precision);
 				initCapJavaDataType = initCap(javaDataType.toLowerCase());
 				String getStr=null;
-				if(javaDataType.equals(GeneratorConstants.JAVA_TYPE_SHORT)||javaDataType.equals(GeneratorConstants.JAVA_TYPE_LONG)||javaDataType.equals(GeneratorConstants.JAVA_TYPE_INT)||javaDataType.equals(GeneratorConstants.JAVA_TYPE_DOUBLE)){
-					getStr = initCapJavaDataType+".parse"+initCapJavaDataType+"(cargo.get"+initCapColumnName+"())";
+				if(javaDataType.equals(GeneratorConstants.JAVA_SQL_INT) || javaDataType.equals(GeneratorConstants.JAVA_TYPE_SHORT)||javaDataType.equals(GeneratorConstants.JAVA_TYPE_LONG)||javaDataType.equals(GeneratorConstants.JAVA_TYPE_INT)||javaDataType.equals(GeneratorConstants.JAVA_TYPE_DOUBLE)){
+					if(javaDataType.equals(GeneratorConstants.JAVA_SQL_INT)){
+						getStr = "Integer.parse"+initCapJavaDataType+"(cargo.get"+initCapColumnName+"())";
+					}
+					else{
+						getStr = initCapJavaDataType+".parse"+initCapJavaDataType+"(cargo.get"+initCapColumnName+"())";
+					}
 				} else if(javaDataType.equals(GeneratorConstants.JAVA_TYPE_DATE) || javaDataType.equals(GeneratorConstants.JAVA_TYPE_TIMESTAMP)|| javaDataType.equals(GeneratorConstants.JAVA_TYPE_TIME)) {
 					getStr = initCapJavaDataType+".valueOf(cargo.get"+initCapColumnName+"())";
 				}
@@ -955,8 +981,13 @@ public class DAOGenerator {
 				javaDataType = GeneraterHelper.getJavaDataType((String)columnInfo.get(GeneratorConstants.DAO_DATA_TYPE), length, scale,precision);
 				initCapJavaDataType = initCap(javaDataType.toLowerCase());
 				String getStr=null;
-				if(javaDataType.equals(GeneratorConstants.JAVA_TYPE_SHORT)||javaDataType.equals(GeneratorConstants.JAVA_TYPE_LONG)||javaDataType.equals(GeneratorConstants.JAVA_TYPE_INT)||javaDataType.equals(GeneratorConstants.JAVA_TYPE_DOUBLE)){
-					getStr = initCapJavaDataType+".parse"+initCapJavaDataType+"(cargo.get"+initCapColumnName+"())";
+				if(javaDataType.equals(GeneratorConstants.JAVA_SQL_INT) || javaDataType.equals(GeneratorConstants.JAVA_TYPE_SHORT)||javaDataType.equals(GeneratorConstants.JAVA_TYPE_LONG)||javaDataType.equals(GeneratorConstants.JAVA_TYPE_INT)||javaDataType.equals(GeneratorConstants.JAVA_TYPE_DOUBLE)){
+					if(javaDataType.equals(GeneratorConstants.JAVA_SQL_INT)){
+						getStr = "Integer.parse"+initCapJavaDataType+"(cargo.get"+initCapColumnName+"())";
+					}
+					else{
+						getStr = initCapJavaDataType+".parse"+initCapJavaDataType+"(cargo.get"+initCapColumnName+"())";
+					}
 				} else if(javaDataType.equals(GeneratorConstants.JAVA_TYPE_DATE) || javaDataType.equals(GeneratorConstants.JAVA_TYPE_TIMESTAMP)|| javaDataType.equals(GeneratorConstants.JAVA_TYPE_TIME)) {
 					getStr = initCapJavaDataType+".valueOf(cargo.get"+initCapColumnName+"())";
 				}

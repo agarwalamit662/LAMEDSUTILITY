@@ -20,7 +20,8 @@ public class GeneratorConstants {
 	public static final String DB2_TYPE_SMALLINT = "SMALLINT";
 	public static final String DB2_TYPE_DATE = "DATE";
 	public static final String DB2_TYPE_TIME = "TIME";
-	public static final String DB2_TYPE_TIMESTAMP = "TIMESTMP";
+	public static final String DB2_TYPE_DATETIME2 = "DATETIME2"; 
+	public static final String DB2_TYPE_TIMESTAMP = "TIMESTAMP";
 	public static final String DB2_TYPE_TIMESTAMP2 = "TIMESTAMP(6)";
 	public static final String DB2_TYPE_VARCHAR = "VARCHAR";
 	public static final String DB2_TYPE_VARCHAR2 = "VARCHAR2";
