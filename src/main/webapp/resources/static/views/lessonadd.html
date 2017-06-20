@@ -62,6 +62,13 @@ header li {display: flex;}
 
     <div ng-show="showForSSP" class="row" align="center" style="margin:1% 1%; min-height:100vh;">
 	<ng-form style="background:rgb(242,242,246);" novalidate name="sspPageUtility">
+    
+    <div class="form-group input-group-lg" ng-class="{true: 'has-error'}[sspPageUtility.dburl.$dirty && sspPageUtility.dburl.$invalid]">
+        <label for="dburl" class="label_left">ENTER DB URL Ex: localhost:53344 or usmumpurchase1:44033</label>
+        <input type="text" class="form-control text-Control" id="dburl" name="dburl" placeholder="Please enter db url where you want to run utility on" ng-model="sspUtility.dburl" ng-required="true" style="height:35px;font-size:14px;">    	
+    </div>
+    
+    
     <div class="form-group input-group-lg" ng-class="{true: 'has-error'}[sspPageUtility.pageIds.$dirty && sspPageUtility.pageIds.$invalid]">
         <label for="pageIds" class="label_left">ENTER PAGE ID</label>
         <input type="text" class="form-control text-Control" id="pageIds" name="pageIds" placeholder="Please enter single page-id ex AMHMS" ng-model="sspUtility.pageIds" ng-required="true" style="height:35px;font-size:14px;">    	
@@ -96,6 +103,12 @@ header li {display: flex;}
 
 <div ng-show="showForSSPCCD" class="row" align="center" style="margin:1% 1%; min-height:100vh;">
 	<ng-form style="background:rgb(242,242,246);" novalidate name="sspccdPageUtility">
+    
+    <div class="form-group input-group-lg" ng-class="{true: 'has-error'}[sspccdPageUtility.dburl.$dirty && sspccdPageUtility.dburl.$invalid]">
+        <label for="dburl" class="label_left">ENTER DB URL Ex: localhost:53344 or usmumpurchase1:44033</label>
+        <input type="text" class="form-control text-Control" id="dburl" name="dburl" placeholder="Please enter db url where you want to run utility on" ng-model="sspccdUtility.dburl" ng-required="true" style="height:35px;font-size:14px;">    	
+    </div>
+    
     <div class="form-group input-group-lg" ng-class="{true: 'has-error'}[sspccdPageUtility.tableName.$dirty && sspccdPageUtility.tableName.$invalid]">
         <label for="tableName" class="label_left">ENTER TABLE NAME</label>
         <input type="text" class="form-control text-Control" id="tableName" name="tableName" placeholder="Please enter table name ex APP_RGST" ng-model="sspccdUtility.tableName" ng-required="true" style="height:35px;font-size:14px;">    	

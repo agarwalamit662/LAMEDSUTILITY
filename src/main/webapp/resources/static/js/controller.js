@@ -151,9 +151,11 @@ myApp.controller("courseController", function($scope, $routeParams,$location) {
     	$scope.sspUtility = {pageIds : '',
     					errorMessages : '',
     					displayTexts : '',
-    					refTables : ''};
+    					refTables : '',
+    					dburl : ''};
     	
-    	$scope.sspccdUtility = {tableName : ''};
+    	$scope.sspccdUtility = {tableName : '',
+    							dburl : ''};
   		
     	$scope.responseOutput = {filePath : '',
     			utilSuccessfull : '',

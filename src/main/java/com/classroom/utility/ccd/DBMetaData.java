@@ -21,12 +21,12 @@ import java.util.Properties;
 
 public class DBMetaData {
 
-	public static List getAllColumnMetaData(String aSchema, String aTableName, String aUserID, String aPwd) throws Exception {
+	public static List getAllColumnMetaData(String aSchema, String aTableName, String aUserID, String aPwd,String url) throws Exception {
 		
 			
 	//			return getColumnData(aUserID, aPwd, "SELECT TABLE_NAME as TBNAME,ORDINAL_POSITION as COLNO,COLUMN_NAME as COLNAME,DATA_TYPE as COLTYPE,coalesce(CHARACTER_MAXIMUM_LENGTH,NUMERIC_PRECISION,NUMERIC_SCALE) as LENGTH,NUMERIC_SCALE as SCALE FROM INFORMATION_SCHEMA.COLUMNS	WHERE TABLE_SCHEMA = '"+aSchema+"' AND TABLE_NAME = '"+aTableName+"' ORDER BY ORDINAL_POSITION");
 		      // return getColumnData(aUserID, aPwd, "SELECT TABLE_NAME as TBNAME,ORDINAL_POSITION as COLNO,COLUMN_NAME as COLNAME,DATA_TYPE as COLTYPE,coalesce(CHARACTER_MAXIMUM_LENGTH,NUMERIC_PRECISION,NUMERIC_SCALE) as LENGTH,NUMERIC_SCALE as SCALE FROM INFORMATION_SCHEMA.COLUMNS	WHERE TABLE_NAME = '"+aTableName+"' ORDER BY ORDINAL_POSITION");
-		      return getColumnData(aUserID, aPwd, "SELECT tbls.name as TBNAME,cols.column_id as COLNO,cols.name as COLNAME,typs.name as COLTYPE,case when cols.precision =  0 then coalesce(cols.max_length,cols.scale)  else cols.precision end as LENGTH,cols.scale as SCALE FROM sys.columns cols INNER JOIN sys.tables tbls ON tbls.object_id = cols.object_id INNER JOIN sys.types typs ON cols.system_type_id = typs.system_type_id  INNER JOIN sys.schemas schms ON tbls.schema_id = schms.schema_id WHERE tbls.name ='"+aTableName+"' AND schms.name = '"+aSchema+"' ORDER BY cols.column_id");
+		      return getColumnData(aUserID, aPwd, "SELECT tbls.name as TBNAME,cols.column_id as COLNO,cols.name as COLNAME,typs.name as COLTYPE,case when cols.precision =  0 then coalesce(cols.max_length,cols.scale)  else cols.precision end as LENGTH,cols.scale as SCALE FROM sys.columns cols INNER JOIN sys.tables tbls ON tbls.object_id = cols.object_id INNER JOIN sys.types typs ON cols.system_type_id = typs.system_type_id  INNER JOIN sys.schemas schms ON tbls.schema_id = schms.schema_id WHERE tbls.name ='"+aTableName+"' AND schms.name = '"+aSchema+"' ORDER BY cols.column_id",url);
 
 //				return getColumnData(aUserID, aPwd, "SELECT TBNAME,COLNO,NAME as COLNAME,COLTYPE,LENGTH,SCALE FROM SYSIBM.SYSCOLUMNS WHERE TBCREATOR = '"+aSchema+"' AND TBNAME = '"+aTableName+"' ORDER BY COLNO");
 //		return getColumnData(aUserID, aPwd, 
@@ -37,10 +37,10 @@ public class DBMetaData {
 //				aTableName+"' and owner = '"+aSchema+"' ORDER BY COLUMN_ID");
 	}
 	
-	public static List getPKColumnMetaData(String aSchema, String aTableName, String aUserID, String aPwd) throws Exception {
+	public static List getPKColumnMetaData(String aSchema, String aTableName, String aUserID, String aPwd,String url) throws Exception {
 		
 		//return getColumnData(aUserID, aPwd, "select A.TABLE_NAME as TBNAME,	C.ORDINAL_POSITION as COLSEQ, C.COLUMN_NAME as COLNAME,	C.DATA_TYPE as COLTYPE, coalesce(C.CHARACTER_MAXIMUM_LENGTH,C.NUMERIC_PRECISION,C.NUMERIC_SCALE) as LENGTH, C.NUMERIC_SCALE as SCALE from INFORMATION_SCHEMA.TABLE_CONSTRAINTS A INNER JOIN	INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE B ON A.CONSTRAINT_NAME = B.CONSTRAINT_NAME and A.TABLE_NAME = B.TABLE_NAME INNER JOIN INFORMATION_SCHEMA.COLUMNS C ON B.COLUMN_NAME = C.COLUMN_NAME and B.TABLE_NAME = C.TABLE_NAME where A.TABLE_SCHEMA = '"+aSchema+"' AND	C.TABLE_NAME = '"+aTableName+"' AND A.CONSTRAINT_TYPE ='PRIMARY KEY' ORDER  BY C.ORDINAL_POSITION");
-		 return getColumnData(aUserID, aPwd, "select A.TABLE_NAME as TBNAME,	C.ORDINAL_POSITION as COLSEQ, C.COLUMN_NAME as COLNAME,	C.DATA_TYPE as COLTYPE, coalesce(C.CHARACTER_MAXIMUM_LENGTH,C.NUMERIC_PRECISION,C.NUMERIC_SCALE) as LENGTH, C.NUMERIC_SCALE as SCALE from INFORMATION_SCHEMA.TABLE_CONSTRAINTS A INNER JOIN	INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE B ON A.CONSTRAINT_NAME = B.CONSTRAINT_NAME and A.TABLE_NAME = B.TABLE_NAME INNER JOIN INFORMATION_SCHEMA.COLUMNS C ON B.COLUMN_NAME = C.COLUMN_NAME and B.TABLE_NAME = C.TABLE_NAME where C.TABLE_NAME = '"+aTableName+"' AND A.CONSTRAINT_TYPE ='PRIMARY KEY' ORDER  BY C.ORDINAL_POSITION");
+		 return getColumnData(aUserID, aPwd, "select A.TABLE_NAME as TBNAME,	C.ORDINAL_POSITION as COLSEQ, C.COLUMN_NAME as COLNAME,	C.DATA_TYPE as COLTYPE, coalesce(C.CHARACTER_MAXIMUM_LENGTH,C.NUMERIC_PRECISION,C.NUMERIC_SCALE) as LENGTH, C.NUMERIC_SCALE as SCALE from INFORMATION_SCHEMA.TABLE_CONSTRAINTS A INNER JOIN	INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE B ON A.CONSTRAINT_NAME = B.CONSTRAINT_NAME and A.TABLE_NAME = B.TABLE_NAME INNER JOIN INFORMATION_SCHEMA.COLUMNS C ON B.COLUMN_NAME = C.COLUMN_NAME and B.TABLE_NAME = C.TABLE_NAME where C.TABLE_NAME = '"+aTableName+"' AND A.CONSTRAINT_TYPE ='PRIMARY KEY' ORDER  BY C.ORDINAL_POSITION",url);
 
 //		return getColumnData(aUserID, aPwd, 
 //				"SELECT distinct cols.table_name,tcol.data_precision PRECISION,  cols.column_name COLNAME, tcol.data_scale SCALE, tcol.data_type COLTYPE, tcol.data_length LENGTH, cols.position, cons.status, cons.owner "+
@@ -55,12 +55,12 @@ public class DBMetaData {
 //				" ORDER BY cols.table_name, cols.position");
 	}
 	
-	private static List getColumnData(String aUserID, String aPwd, String aSql) throws Exception{
+	private static List getColumnData(String aUserID, String aPwd, String aSql,String url) throws Exception{
 
 		try {
 			
 			List columnMetaData = new ArrayList(); 
-			Connection conn = getConnection(aUserID, aPwd);
+			Connection conn = getConnection(aUserID, aPwd,url);
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(aSql);
 			while(rs.next()) {
@@ -90,7 +90,7 @@ public class DBMetaData {
 		}
 	}
 	
-	private static Connection getConnection(String aUserID, String aPwd) throws Exception {
+	private static Connection getConnection(String aUserID, String aPwd,String baseurl) throws Exception {
 
 		try {		
 			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerConnectionPoolDataSource");
@@ -98,7 +98,8 @@ public class DBMetaData {
 			Properties properties = new Properties(); // Create Properties object
 			properties.put("user", "ssp_ee_dev");         // Set user ID for connection
 			properties.put("password", "ssp_ee_dev");     // Set password for connection
-			String url = "jdbc:sqlserver://localhost:53344";
+			//String url = "jdbc:sqlserver://localhost:53344";
+			String url = "jdbc:sqlserver://"+baseurl.trim();
 			//String url = "jdbc:sqlserver://usmumpurchase1:44033";
 				//	+ "10.12.88.113:44033";
 			//10.12.88.136,44033

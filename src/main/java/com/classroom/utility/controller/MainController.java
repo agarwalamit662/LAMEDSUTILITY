@@ -105,25 +105,31 @@ public class MainController {
     			stream.close();
 
     			mapRef = new HashMap<>();
-    			Connection conn = null;
-    	        Statement stmt = null;
+    			//Connection conn = null;
+    	        //Statement stmt = null;
     	        File files = null;
-    	        try {
+    	        String dbURL = "jdbc:sqlserver://usmumpurchase1:44033";
+	            String user = "iewp_ee_dev";
+	            String pass = "iewp_ee_dev";
+	            String driver = JDBC_DRVR;
+	        	Class.forName(driver).newInstance();
+	        	String sql = "select NAME,FIELD_ID from RT_field_domain";
+    	        try (Connection conn = DriverManager.getConnection(dbURL, user, pass);
+    	            		Statement stmt = conn.createStatement();
+    	            		){
 
-    	            String dbURL = "jdbc:sqlserver://usmumpurchase1:44033";
-    	            String user = "iewp_ee_dev";
-    	            String pass = "iewp_ee_dev";
-    	            String driver = JDBC_DRVR;
-    	        	Class.forName(driver).newInstance();
-    	            conn = DriverManager.getConnection(dbURL, user, pass);
-    	            stmt = conn.createStatement();
-    	            String sql = "select NAME,FIELD_ID from RT_field_domain";
-    	            ResultSet rs = stmt.executeQuery(sql);
-    	            while(rs.next()){
-    	                  
-    	            	mapRef.put(rs.getString(1), rs.getInt(2));
-    	            	
+    	            try(ResultSet rs = stmt.executeQuery(sql);){
+		    	        while(rs.next()){
+		    	                  
+		    	            	mapRef.put(rs.getString(1), rs.getInt(2));
+		    	            	
+		    	        }
     	            }
+    	            catch(Exception e){
+    	            	log.error(e);
+    	            }
+    	            
+    	            
     	            
     	            try
     	    		{
@@ -321,9 +327,7 @@ public class MainController {
 					if (dirs.exists())
 						FileUtils.forceDelete(dirs);
 					
-					stmt.close();
-					conn.close();
-					rs.close();
+					
 					
     	    		}
 					
@@ -348,23 +352,15 @@ public class MainController {
     	            	if(files != null){
     	            		files.delete();
     	            	}
-    	                if (conn != null && !conn.isClosed()) {
-    	                    conn.close();
-    	                }
     	                
-    	            } catch (SQLException ex) {
+    	                
+    	            } catch (Exception ex) {
     	            	
     	                log.error(ex);
     	                deleteFileWorkerPortal(rootPath);
     	                exceptions.append(ex.toString());
     	                response = setResponse(exceptions);
     	                
-    	            }
-    	            finally{
-    	            	stmt.close();
-    	            	if (conn != null && !conn.isClosed()) {
-    	                    conn.close();
-    	                }
     	            }
     	        }
     			
@@ -388,23 +384,19 @@ public class MainController {
     }
     
     @RequestMapping(value = "/ssputility", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody SSPUtilityResponse sspUtility(@RequestBody SSPUtility input){
+    public @ResponseBody SSPUtilityResponse sspUtility(@RequestBody SSPUtility input) throws InstantiationException, IllegalAccessException, ClassNotFoundException{
             	
     	SSPUtilityResponse response = new SSPUtilityResponse();
     	StringBuilder exceptions = new StringBuilder();
     	
     	
-    	Connection conn = null;
-        Statement stmt = null;
+    	//Connection conn = null;
+    	//Statement stmt = null;
         PreparedStatement pstmt = null;
-        ResultSet rs = null;
-        try {
+        //ResultSet rs = null;
+        
 
-            // Change this DB Url When Needed URL AND PORT ONLY
-        	//String dbURL = "jdbc:sqlserver://10.12.88.113:44033";
-        	//String dbURL = "jdbc:sqlserver://usmumpurchase3:9080";
-        	
-        	String dbURL = "jdbc:sqlserver://localhost:53344";
+          String dbURL = "jdbc:sqlserver://";
         	// DBNAME
         	String user =SSP_USERNAME;
             //DBPASSWORD
@@ -422,12 +414,18 @@ public class MainController {
             }
             info.put("useUnicode", "true");
             info.put("characterEncoding", "UTF-8");
+           
             
-            conn = DriverManager.getConnection(dbURL, info);
+            dbURL = dbURL+input.getDburl();
+            try (Connection conn = DriverManager.getConnection(dbURL, info);
+            		Statement stmt = conn.createStatement();
+            		){
+            
             String refIds = input.getRefTables();
             String pageId = input.getPageIds(); 
             String msgId = "";
             String msgYorN = input.getErrorMessages();
+            
             
             if(msgYorN != null && !msgYorN.equalsIgnoreCase("N")){
             	StringBuilder bf = new StringBuilder();
@@ -477,7 +475,7 @@ public class MainController {
             	refIds = "";
             }
             
-            stmt = conn.createStatement();
+            
             
             String extraDisPlayId = "('','')";
             String sql1 = "select * from PAGE_ELE where PAGE_ID = '"+pageId+"'";
@@ -497,7 +495,10 @@ public class MainController {
                    
             sb1.append("delete from PAGE_ELE where PAGE_ID = '"+pageId+"';");
             sb1.append("\n\r");
-            rs = stmt.executeQuery(sql1);
+            
+            try(ResultSet rs = stmt.executeQuery(sql1);){
+            
+            //rs = stmt.executeQuery(sql1);
             while(rs.next()){
             	
             	StringBuilder innerLoop = new StringBuilder();
@@ -557,12 +558,12 @@ public class MainController {
             	innerLoop.append(");");
             	sb1.append(innerLoop.toString()+"\n");
             }
-            
+            }
             sb1.append("\n\r");
             sb1.append("delete from DPLY_TXT where TXT_ID in (select txt_id from page_ele where page_id='"+pageId+"');");
             sb1.append("\n\r");
-            
-            rs = stmt.executeQuery(sql2);
+            try(ResultSet rs = stmt.executeQuery(sql2);){
+            //rs = stmt.executeQuery(sql2);
             while(rs.next()){
             	
             	
@@ -580,12 +581,12 @@ public class MainController {
             	sb1.append(innerLoop.toString()+"\n");
             }
             
-            
+            }
             sb1.append("\n\r");
             sb1.append("delete from ELE_DPLY where ELE_ID in (select ELE_ID from page_ele where page_id='"+pageId+"');");
             sb1.append("\n\r");
-            
-            rs = stmt.executeQuery(sql3);
+            try(ResultSet rs = stmt.executeQuery(sql3);){
+            //rs = stmt.executeQuery(sql3);
             while(rs.next()){
             	
             	
@@ -603,12 +604,12 @@ public class MainController {
             	innerLoop.append(");");
             	sb1.append(innerLoop.toString()+"\n");
             }
-            
+            }
             sb1.append("\n\r");
             sb1.append("delete from PAGE where PAGE_ID = '"+pageId+"';");
             sb1.append("\n\r");
-            
-            rs = stmt.executeQuery(sql4);
+            try(ResultSet rs = stmt.executeQuery(sql4);){
+            //rs = stmt.executeQuery(sql4);
             while(rs.next()){
             	
                 StringBuilder innerLoop = new StringBuilder();
@@ -631,6 +632,7 @@ public class MainController {
             	sb1.append(innerLoop.toString()+"\n");
             }
             }
+            }
             
             if(!msgId.equalsIgnoreCase("")){
             
@@ -638,8 +640,8 @@ public class MainController {
             	sb1.append("delete from MSG where MSG_ID in "+msgId+";");
             	sb1.append("\n\r");
             
-            
-            	rs = stmt.executeQuery(sql5);
+            	try(ResultSet rs = stmt.executeQuery(sql5);){
+            	//rs = stmt.executeQuery(sql5);
             	while(rs.next()){
             	
             	
@@ -656,7 +658,7 @@ public class MainController {
 	            	innerLoop.append(");");
 	            	sb1.append(innerLoop.toString()+"\n");
             	}
-            
+            	}
             	sb1.append("\n\r");
             
             }
@@ -666,8 +668,8 @@ public class MainController {
             sb1.append("\n\r");
             sb1.append("delete from DPLY_TXT where TXT_ID in "+dsplyId+" ;");
             sb1.append("\n\r");
-            
-            rs = stmt.executeQuery(sql6);
+            try(ResultSet rs = stmt.executeQuery(sql6);){
+            //rs = stmt.executeQuery(sql6);
             while(rs.next()){
             	
             	StringBuilder innerLoop = new StringBuilder();
@@ -683,7 +685,7 @@ public class MainController {
             	innerLoop.append(");");
             	sb1.append(innerLoop.toString()+"\n");
             }
-            
+            }
             }
             
             
@@ -692,8 +694,8 @@ public class MainController {
                 sb1.append("\n\r");
                 sb1.append("delete from LKUP_GRP_FLD where lkup_grp_cd IN "+refIds+" ;");
                 sb1.append("\n\r");
-                
-                rs = stmt.executeQuery(sql7);
+                try(ResultSet rs = stmt.executeQuery(sql7);){
+                //rs = stmt.executeQuery(sql7);
                 while(rs.next()){
                 	StringBuilder innerLoop = new StringBuilder();
                 	String tempString = "INSERT INTO LKUP_GRP_FLD VALUES("; 
@@ -709,12 +711,13 @@ public class MainController {
                 	sb1.append(innerLoop.toString()+"\n");
                 }
                 
-                
+                }
                 sb1.append("\n\r");
                 sb1.append("delete from LKUP_GRP where LKUP_GRP_CD IN "+refIds+" ;");
                 sb1.append("\n\r");
                 
-                rs = stmt.executeQuery(sql8);
+                try(ResultSet rs = stmt.executeQuery(sql8);){
+                //rs = stmt.executeQuery(sql8);
                 while(rs.next()){
   
                 	StringBuilder innerLoop = new StringBuilder();
@@ -728,12 +731,12 @@ public class MainController {
                 	sb1.append(innerLoop.toString()+"\n");
                 }
                 
-                
+                }
                 sb1.append("\n\r");
                 sb1.append("delete from LKUP_FLD where LKUP_FLD_ID in (select LKUP_FLD_ID from LKUP_GRP_FLD where lkup_grp_cd IN "+refIds+") ;");
                 sb1.append("\n\r");
-                
-                rs = stmt.executeQuery(sql9);
+                try(ResultSet rs = stmt.executeQuery(sql9);){
+                //rs = stmt.executeQuery(sql9);
                 while(rs.next()){
                 	
                 	
@@ -747,12 +750,12 @@ public class MainController {
                 	innerLoop.append(");");
                 	sb1.append(innerLoop.toString()+"\n");
                 }
-                
+                }
                 sb1.append("\n\r");
                 sb1.append("delete from LKUP where LKUP_GRP_FLD_ID in ( select LKUP_GRP_FLD_ID from LKUP_GRP_FLD where lkup_grp_cd IN "+refIds+");");
                 sb1.append("\n\r");
-                
-                rs = stmt.executeQuery(sql10);
+                try(ResultSet rs = stmt.executeQuery(sql10);){
+                //rs = stmt.executeQuery(sql10);
                 while(rs.next()){
                 	
                 	StringBuilder innerLoop = new StringBuilder();
@@ -778,7 +781,7 @@ public class MainController {
                 	innerLoop.append(");");
                 	sb1.append(innerLoop.toString()+"\n");
                 }
-                
+                }
             }
             
             
@@ -806,8 +809,7 @@ public class MainController {
             response.setFilePath(serverFile.getAbsolutePath());
             response.setExceptions("");
             response.setUtilSuccessfull("Y");
-            rs.close();
-            conn.close();
+            
         } catch (SQLException | FileNotFoundException ex) {
         	log.error(ex);
             exceptions.append(ex.toString());
@@ -817,24 +819,14 @@ public class MainController {
 			exceptions.append(e.toString());
 			response = setResponse(exceptions);
 		}
-        finally {
-            try {
-                if (conn != null && !conn.isClosed()) {
-                    conn.close();
-                }
-            } catch (SQLException ex) {
-            	log.error(ex);
-                exceptions.append(ex.toString());
-                response = setResponse(exceptions);
-            }
-        }
+        
     	
     	return response;
     }
     
     
     @RequestMapping(value = "/download", method = RequestMethod.GET)
-    public void download(@RequestParam ("name") String name, final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+    public void download(@RequestParam ("name") String name, final HttpServletRequest request, final HttpServletResponse response) throws IOException {
     	
         File file = new File (name.replace("\\", "/"));
         try (InputStream fileInputStream = new FileInputStream(file);
@@ -861,6 +853,7 @@ public class MainController {
     public @ResponseBody SSPUtilityResponse getCCD(@RequestBody CCDS ccdInp) throws IOException{
         
     	String input = ccdInp.getTableName();
+    	String url = ccdInp.getDburl();
     	
     	SSPUtilityResponse response = new SSPUtilityResponse();
     	StringBuilder exceptions = new StringBuilder();
@@ -879,7 +872,7 @@ public class MainController {
     			dirsZips.delete();
     			
     		}
-        	ccdGen.generate("access", input.toUpperCase(), SSP_USERNAME, SSP_USERNAME);
+        	ccdGen.generate("access", input.toUpperCase(), SSP_USERNAME, SSP_USERNAME,url);
         	File fs = new File(CCDS_PATH + File.separator + TMP_FILES_WKP_OUTPUT_ZIP);
         	ZipUtil.pack(new File("C:/GeneratedCode/ccd"), fs);
         	//response = setResponse(exceptions);

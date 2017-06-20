@@ -20,7 +20,7 @@ public class CCDGenerator {
 		CCDGenerator cg = new CCDGenerator();
 	}
 	
-	public void generate(String aSubSystem, String aTableName, String aUserId, String aPwd) throws Exception {
+	public void generate(String aSubSystem, String aTableName, String aUserId, String aPwd,String url) throws Exception {
 
 		try {
 			String schema = null;
@@ -51,8 +51,8 @@ public class CCDGenerator {
 				dir.mkdir();
 			}				
 				
-			List allColumnInfo = DBMetaData.getAllColumnMetaData(schema, aTableName, aUserId, aPwd);
-			List pkColumnInfo = DBMetaData.getPKColumnMetaData(schema, aTableName, aUserId, aPwd);
+			List allColumnInfo = DBMetaData.getAllColumnMetaData(schema, aTableName, aUserId, aPwd,url);
+			List pkColumnInfo = DBMetaData.getPKColumnMetaData(schema, aTableName, aUserId, aPwd,url);
 		
 			// generate cargo
 			CargoGenerator.generate(aSubSystem, aTableName, allColumnInfo, pkColumnInfo);

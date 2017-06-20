@@ -6,11 +6,24 @@ public class SSPUtility {
 	private String errorMessages;
 	private String displayTexts;
 	private String refTables;
+	private String dburl="usmumpurchase1:44033";
+	
+	
+	
+
+	public String getDburl() {
+		return dburl;
+	}
+
+	public void setDburl(String dburl) {
+		this.dburl = dburl;
+	}
 	
 	public SSPUtility() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+	
 	public String getPageIds() {
 		return pageIds;
 	}
